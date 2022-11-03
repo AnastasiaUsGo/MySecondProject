@@ -15,7 +15,6 @@ import java.time.Duration;
 @RunWith(Parameterized.class)
 public class OrderFormTest {
     private WebDriver driver;
-
     private final String name;
     private final String surname;
     private final String address;
@@ -40,20 +39,20 @@ public class OrderFormTest {
         this.color = color;
         this.comment = comment;
     }
+
     @Parameterized.Parameters
     public static Object[][] getCities() {
         return new Object[][]{
                 {1, "Иван", "Иванов", "улица Иванова 22", "Таганская", "+79999999999", "03.11.2022", 2,
-                        "серая безысходность", "В первой половине дня" },
+                        "серая безысходность", "В первой половине дня"},
                 {0, "Иван", "Иванов", "улица Иванова 22", "Таганская", "+79999999999", "03.11.2022", 2,
-                        "серая безысходность", "В первой половине дня" },
+                        "серая безысходность", "В первой половине дня"},
                 {1, "Елена", "Прекрасная", "улица Ленина 13", "Тверская", "+79998887654", "01.11.2022", 6,
                         "черный жемчуг", ""},
                 {0, "Елена", "Прекрасная", "улица Ленина 13", "Тверская", "+79998887654", "01.11.2022", 6,
                         "черный жемчуг", ""},
         };
     }
-
 
     @Before
     public void setUp() throws Exception {
@@ -65,35 +64,22 @@ public class OrderFormTest {
 
     @Test
     public void OderFormTest() {
-       MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(driver);
         OrderForm orderForm = new OrderForm(driver);
 
         mainPage.openMainPage();
         mainPage.closeCookie();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         mainPage.clickOrderButton(numberButtonOrder);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        orderForm.inputName(name);
-        orderForm.inputSurname(surname);
-        orderForm.inputAddress(address);
-        orderForm.chooseMetro(metro);
-        orderForm.inputNumberPhone(phoneNumber);
+        orderForm.enterForm_1(name, surname, address, metro, phoneNumber);
         orderForm.clickNext();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        orderForm.inputDateOrder(date);
-        orderForm.inputRentalPeriod(period);
-        orderForm.inputColorScooter(color);
-        orderForm.inputComment(comment);
+        orderForm.enterForm_2(date, period, color, comment);
         orderForm.clickOrderButtonForm();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         orderForm.clickConfirm();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         orderForm.checkOrder();
     }
 
     @After
     public void tearDown() {
-
         driver.quit();
     }
 }

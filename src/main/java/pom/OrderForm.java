@@ -5,12 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import java.time.Duration;
+
 import static org.hamcrest.CoreMatchers.containsString;
-
 public class OrderForm {
-
     private WebDriver driver;
-
     // Имя
     private final By name = By.xpath(".//input[@placeholder='* Имя']");
     // Фамилия
@@ -87,6 +86,7 @@ public class OrderForm {
     // Метод нажатия на кнопку далее
     public void clickNext() {
         driver.findElement(next).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
     }
     // Метод ввода даты
     public void inputDateOrder(String inputDateOrder) {
@@ -134,25 +134,38 @@ public class OrderForm {
             driver.findElement(colorScooterGrey).click();
         }
     }
-
     // Метод для написаня комментария
     public void inputComment(String text) {
         driver.findElement(comment).click();
         driver.findElement(comment).sendKeys(text);
     }
+    //Метод заполнения формы 1
+    public void enterForm_1(String name, String surname, String address, String metro,
+                          String phoneNumber){
+        inputName(name);
+        inputSurname(surname);
+        inputAddress(address);
+        chooseMetro(metro);
+        inputNumberPhone(phoneNumber);
+    }
+    //Метод заполнения формы 2
+    public void enterForm_2(String data, int period, String color, String comment){
+        inputDateOrder(data);
+        inputRentalPeriod(period);
+        inputColorScooter(color);
+        inputComment(comment);
+    }
     // Метод нажатия на кнопку в форме заказа
     public void clickOrderButtonForm() {
         driver.findElement(orderButton).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
     }
-
     // Метод подтверждения данных заказа
     public void clickConfirm() {
         driver.findElement(confirmButton).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
     }
-
     public void checkOrder() {
-        ;
         Assert.assertThat(driver.findElement(orderCreated).getText(), containsString("Заказ оформлен"));
     }
-
 }
